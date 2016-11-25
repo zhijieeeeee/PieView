@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'//添加
+apply plugin: 'com.novoda.bintray-release'//添加
 
 android {
     compileSdkVersion 24
@@ -28,4 +30,18 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
+}
+
+//添加
+publish {
+    //com.don:clockviewlibrary:1.0.0
+    userOrg = 'don'//bintray.com用户名
+    groupId = 'com.don'//jcenter上的路径
+    artifactId = 'pieviewlibrary'//项目名称
+    publishVersion = '1.0.0'//版本号
+    desc = 'PieView for android'//描述，不重要
+    website = 'https://github.com/zhijieeeeee/PieView'//网站，不重要；尽量模拟github上的地址
+
+    //gradlew clean build bintrayUpload -PbintrayUser=zhijieeeeee -PbintrayKey=xxxxxxx -PdryRun=false
+    //由于是github登录的这里的user是github的名字
 }
