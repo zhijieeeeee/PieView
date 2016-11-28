@@ -295,7 +295,7 @@ public class PieView extends View {
             numberStartY = endY - Y_OFFSET;
 
             textStartX = endX + X_OFFSET;
-            textStartY = endY + dataTextBound.height()+Y_OFFSET;
+            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
         } else if (degree == 180) {
             startX = centerX;
             startY = centerY + radius;
@@ -310,7 +310,7 @@ public class PieView extends View {
             numberStartY = endY - Y_OFFSET;
 
             textStartX = endX + X_OFFSET;
-            textStartY = endY + dataTextBound.height()+Y_OFFSET;
+            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
         } else if (degree > 180 && degree < 270) {//三象限
             endX = startX - SlASH_LINE_OFFSET;
             endY = startY + SlASH_LINE_OFFSET;
@@ -322,7 +322,7 @@ public class PieView extends View {
             numberStartY = endY - Y_OFFSET;
 
             textStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            textStartY = endY + dataTextBound.height()+Y_OFFSET;
+            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
         } else if (degree == 270) {
             startX = centerX - radius;
             startY = centerY;
@@ -336,7 +336,7 @@ public class PieView extends View {
             numberStartY = endY - Y_OFFSET;
 
             textStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            textStartY = endY + dataTextBound.height()+Y_OFFSET;
+            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
         } else if (degree > 270 && degree < 360) {//四象限
             endX = startX - SlASH_LINE_OFFSET;
             endY = startY - SlASH_LINE_OFFSET;
@@ -348,7 +348,7 @@ public class PieView extends View {
             numberStartY = endY - Y_OFFSET;
 
             textStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            textStartY = endY + dataTextBound.height()+Y_OFFSET;
+            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
         } else if (degree == 360) {
             startX = centerX;
             startY = centerY - radius;
@@ -362,7 +362,7 @@ public class PieView extends View {
             numberStartY = endY - Y_OFFSET;
 
             textStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            textStartY = endY + dataTextBound.height()+Y_OFFSET;
+            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
 
         } else if (degree > 360) {//一象限
             endX = startX + SlASH_LINE_OFFSET;
@@ -375,7 +375,7 @@ public class PieView extends View {
             numberStartY = endY - Y_OFFSET;
 
             textStartX = endX + X_OFFSET;
-            textStartY = endY + dataTextBound.height()+Y_OFFSET;
+            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
 
         }
         //绘制线段和数据
