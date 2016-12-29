@@ -204,7 +204,7 @@ public class PieView extends View {
         centerX = getMeasuredWidth() / 2;
         centerY = getMeasuredHeight() / 2;
         //设置半径为宽高最小值的1/4
-        radius = Math.min(getMeasuredWidth(), getMeasuredHeight()) / 2 * 0.5f;
+        radius = Math.min(getMeasuredWidth(), getMeasuredHeight()) / 4;
         //设置扇形外接矩形
         rectF = new RectF(centerX - radius,
                 centerY - radius,
