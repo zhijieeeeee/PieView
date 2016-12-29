@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.Random;
@@ -275,7 +276,9 @@ public class PieView extends View {
         float textStartX = 0;
         float textStartY = 0;
 
-        //sin 一二正，三四负
+        //由于Math.sin(double a)中参数a不是度数而是弧度，所以需要将度数转化为弧度
+        //而Math.toRadians(degree)的作用就是将度数转化为弧度
+        //sin 一二正，三四负 sin（180-a）=sin(a)
         x = (float) (Math.sin(Math.toRadians(degree)) * radius);
         //cos 一四正，二三负
         y = (float) (Math.cos(Math.toRadians(degree)) * radius);
