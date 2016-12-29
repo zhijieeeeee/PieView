@@ -228,11 +228,19 @@ public class PieView extends View {
         }
         //扇形开始度数
         int startAngle = 0;
+        //所占百分比
+        float percent;
+        //所占度数
+        float angle;
         for (int i = 0; i < numbers.length; i++) {
-            //所占百分比
-            float percent = numbers[i] / (float) sum;
-            //所占度数
-            float angle = (float) Math.ceil(percent * 360);
+            percent = numbers[i] / (float) sum;
+            //获取百分比在360中所占度数
+            if (i == numbers.length - 1) {//保证所有度数加起来等于360
+                angle = 360 - startAngle;
+            } else {
+                angle = (float) Math.ceil(percent * 360);
+            }
+            Log.i("MyLog", "angle=" + angle);
             //绘制第i段扇形
             drawArc(canvas, startAngle, angle, colors[i]);
             startAngle += angle;
