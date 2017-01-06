@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.Random;
@@ -240,7 +239,6 @@ public class PieView extends View {
             } else {
                 angle = (float) Math.ceil(percent * 360);
             }
-            Log.i("MyLog", "angle=" + angle);
             //绘制第i段扇形
             drawArc(canvas, startAngle, angle, colors[i]);
             startAngle += angle;
@@ -251,7 +249,7 @@ public class PieView extends View {
             }
             //当前扇形弧线相对于纵轴的中心点度数,由于扇形的绘制是从三点钟方向开始，所以加90
             float arcCenterDegree = 90 + startAngle - angle / 2;
-            calculatePosition(canvas, arcCenterDegree, i, percent);
+            drawData(canvas, arcCenterDegree, i, percent);
         }
         //绘制中心数字总和
         canvas.drawText(sum + "", centerX - centerTextBound.width() / 2, centerY + centerTextBound.height() / 2, centerTextPaint);
@@ -260,17 +258,40 @@ public class PieView extends View {
     /**
      * 计算每段弧度的中心坐标
      *
-     * @param canvas 画布
      * @param degree 当前扇形中心度数
-     * @param i      当前下标
      */
-    private void calculatePosition(Canvas canvas, float degree, int i, float percent) {
-        //扇形弧线中心点距离圆心的坐标
-        float x;
-        float y;
-        //斜线开始坐标(扇形弧线中心点相对于view的坐标)
-        float startX;
-        float startY;
+    private float[] calculatePosition(float degree) {
+        //由于Math.sin(double a)中参数a不是度数而是弧度，所以需要将度数转化为弧度
+        //而Math.toRadians(degree)的作用就是将度数转化为弧度
+        //sin 一二正，三四负 sin（180-a）=sin(a)
+        //扇形弧线中心点距离圆心的x坐标
+        float x = (float) (Math.sin(Math.toRadians(degree)) * radius);
+        //cos 一四正，二三负
+        //扇形弧线中心点距离圆心的y坐标
+        float y = (float) (Math.cos(Math.toRadians(degree)) * radius);
+
+        //每段弧度的中心坐标(扇形弧线中心点相对于view的坐标)
+        float startX = centerX + x;
+        float startY = centerY - y;
+
+        float[] position = new float[2];
+        position[0] = startX;
+        position[1] = startY;
+        return position;
+    }
+
+    /**
+     * 绘制数据
+     *
+     * @param canvas  画布
+     * @param degree  所在弧线的度数
+     * @param i       数据下标
+     * @param percent 数据百分比
+     */
+    private void drawData(Canvas canvas, float degree, int i, float percent) {
+        //弧度中心坐标
+        float startX = calculatePosition(degree)[0];
+        float startY = calculatePosition(degree)[1];
         //斜线结束坐标
         float endX = 0;
         float endY = 0;
@@ -283,16 +304,6 @@ public class PieView extends View {
         //文本开始坐标
         float textStartX = 0;
         float textStartY = 0;
-
-        //由于Math.sin(double a)中参数a不是度数而是弧度，所以需要将度数转化为弧度
-        //而Math.toRadians(degree)的作用就是将度数转化为弧度
-        //sin 一二正，三四负 sin（180-a）=sin(a)
-        x = (float) (Math.sin(Math.toRadians(degree)) * radius);
-        //cos 一四正，二三负
-        y = (float) (Math.cos(Math.toRadians(degree)) * radius);
-
-        startX = centerX + x;
-        startY = centerY - y;
 
         //根据每个弧度的中心点坐标绘制数据
 
@@ -392,42 +403,15 @@ public class PieView extends View {
             textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
 
         }
-        //绘制线段和数据
-        drawLineAndData(canvas, i, startX, startY, endX, endY,
-                horEndX, horEndY, numberStartX, numberStartY, textStartX, textStartY);
-    }
-
-    /**
-     * 绘制数据
-     *
-     * @param canvas       画布
-     * @param i            下标
-     * @param slashStartX  斜线开始X坐标
-     * @param slashStartY  斜线开始Y坐标
-     * @param slashEndX    斜线结束X坐标
-     * @param slashEndY    斜线结束Y坐标
-     * @param horEndX      横线结束X坐标
-     * @param horEndY      横线结束Y坐标
-     * @param numberStartX 数字开始X坐标
-     * @param numberStartY 数字开始Y坐标
-     * @param textStartX   文本开始X坐标
-     * @param textStartY   文本开始Y坐标
-     */
-    private void drawLineAndData(Canvas canvas, int i, float slashStartX, float slashStartY,
-                                 float slashEndX, float slashEndY,
-                                 float horEndX, float horEndY,
-                                 float numberStartX, float numberStartY,
-                                 float textStartX, float textStartY) {
         //绘制折线
-        canvas.drawLine(slashStartX, slashStartY, slashEndX, slashEndY, dataPaint);
+        canvas.drawLine(startX, startY, endX, endY, dataPaint);
         //绘制横线
-        canvas.drawLine(slashEndX, slashEndY, horEndX, horEndY, dataPaint);
+        canvas.drawLine(endX, endY, horEndX, horEndY, dataPaint);
         //绘制数字
         canvas.drawText(numbers[i] + "", numberStartX, numberStartY, dataPaint);
         //绘制文字
         canvas.drawText(names[i] + "", textStartX, textStartY, dataPaint);
     }
-
 
     /**
      * 绘制扇形

@@ -15,7 +15,7 @@ import java.util.Random;
 
 /**
  * <p>
- * Description：饼状统计图View，数据位于圆弧上
+ * Description：饼状统计图View，折线数据类型
  * </p>
  *
  * @author tangzhijie
@@ -27,6 +27,26 @@ public class PieView2 extends View {
      */
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 800;
+
+    /**
+     * 斜线长度
+     */
+    private static final int SlASH_LINE_OFFSET = 60;
+
+    /**
+     * 横线长度
+     */
+    private static final int HOR_LINE_LENGTH = 180;
+
+    /**
+     * 横线上文字的横向偏移量
+     */
+    private static final int X_OFFSET = 20;
+
+    /**
+     * 横线上文字的纵向偏移量
+     */
+    private static final int Y_OFFSET = 10;
 
     /**
      * 中心坐标
@@ -101,7 +121,7 @@ public class PieView2 extends View {
     /**
      * 数据字体大小
      */
-    private float dataTextSize = 30;
+    private float dataTextSize = 40;
 
     /**
      * 中间字体颜色
@@ -116,7 +136,7 @@ public class PieView2 extends View {
     /**
      * 圆圈的宽度
      */
-    private float circleWidth = 100;
+    private float circleWidth = 50;
 
     //自定义属性 End
 
@@ -156,6 +176,7 @@ public class PieView2 extends View {
         centerTextPaint.setColor(centerTextColor);
 
         dataPaint = new Paint();
+        dataPaint.setStrokeWidth(2);
         dataPaint.setTextSize(dataTextSize);
         dataPaint.setAntiAlias(true);
         dataPaint.setColor(dataTextColor);
@@ -211,7 +232,6 @@ public class PieView2 extends View {
         float percent;
         //所占度数
         float angle;
-
         for (int i = 0; i < numbers.length; i++) {
             percent = numbers[i] / (float) sum;
             //获取百分比在360中所占度数
@@ -230,39 +250,49 @@ public class PieView2 extends View {
             }
             //当前扇形弧线相对于纵轴的中心点度数,由于扇形的绘制是从三点钟方向开始，所以加90
             float arcCenterDegree = 90 + startAngle - angle / 2;
-            calculateDataLoacation(canvas, arcCenterDegree, i, percent);
+            drawData(canvas, arcCenterDegree, i, percent);
         }
         //绘制中心数字总和
         canvas.drawText(sum + "", centerX - centerTextBound.width() / 2, centerY + centerTextBound.height() / 2, centerTextPaint);
     }
 
     /**
-     * 计算数据文本坐标
+     * 计算每段弧度的中心坐标
      *
-     * @param canvas  画布
-     * @param degree  当前扇形中心度数
-     * @param i       当前下标
-     * @param percent 百分比
+     * @param degree 当前扇形中心度数
      */
-    private void calculateDataLoacation(Canvas canvas, float degree, int i, float percent) {
-        //扇形弧线中心点距离圆心的坐标
-        float x;
-        float y;
-        //数据文本开始坐标(扇形弧线中心点相对于view的坐标)
-        float startX;
-        float startY;
-
+    private float[] calculatePosition(float degree) {
         //由于Math.sin(double a)中参数a不是度数而是弧度，所以需要将度数转化为弧度
         //而Math.toRadians(degree)的作用就是将度数转化为弧度
         //sin 一二正，三四负 sin（180-a）=sin(a)
-        x = (float) (Math.sin(Math.toRadians(degree)) * radius);
+        //扇形弧线中心点距离圆心的x坐标
+        float x = (float) (Math.sin(Math.toRadians(degree)) * radius);
         //cos 一四正，二三负
-        y = (float) (Math.cos(Math.toRadians(degree)) * radius);
+        //扇形弧线中心点距离圆心的y坐标
+        float y = (float) (Math.cos(Math.toRadians(degree)) * radius);
 
-        startX = centerX + x;
-        startY = centerY - y;
+        //每段弧度的中心坐标(扇形弧线中心点相对于view的坐标)
+        float startX = centerX + x;
+        float startY = centerY - y;
 
-        //根据每个弧度的中心点坐标绘制数据
+        float[] position = new float[2];
+        position[0] = startX;
+        position[1] = startY;
+        return position;
+    }
+
+    /**
+     * 绘制数据
+     *
+     * @param canvas  画布
+     * @param degree  所在弧线的度数
+     * @param i       数据下标
+     * @param percent 数据百分比
+     */
+    private void drawData(Canvas canvas, float degree, int i, float percent) {
+        //弧度中心坐标
+        float startX = calculatePosition(degree)[0];
+        float startY = calculatePosition(degree)[1];
 
         //获取名称文本大小
         dataPaint.getTextBounds(names[i], 0, names[i].length(), dataTextBound);

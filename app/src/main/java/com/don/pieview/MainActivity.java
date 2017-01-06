@@ -1,7 +1,7 @@
 package com.don.pieview;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.don.pieviewlibrary.PieView;
 import com.don.pieviewlibrary.PieView2;
