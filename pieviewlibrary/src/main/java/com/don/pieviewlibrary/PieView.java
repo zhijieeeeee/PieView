@@ -284,8 +284,8 @@ public class PieView extends View {
      * 绘制数据
      *
      * @param canvas  画布
-     * @param degree  所在弧线的度数
-     * @param i       数据下标
+     * @param degree  第i段弧线中心点相对于纵轴的夹角度数
+     * @param i       第i段弧线
      * @param percent 数据百分比
      */
     private void drawData(Canvas canvas, float degree, int i, float percent) {

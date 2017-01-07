@@ -29,26 +29,6 @@ public class PieView2 extends View {
     private static final int DEFAULT_HEIGHT = 800;
 
     /**
-     * 斜线长度
-     */
-    private static final int SlASH_LINE_OFFSET = 60;
-
-    /**
-     * 横线长度
-     */
-    private static final int HOR_LINE_LENGTH = 180;
-
-    /**
-     * 横线上文字的横向偏移量
-     */
-    private static final int X_OFFSET = 20;
-
-    /**
-     * 横线上文字的纵向偏移量
-     */
-    private static final int Y_OFFSET = 10;
-
-    /**
      * 中心坐标
      */
     private int centerX;
@@ -248,7 +228,7 @@ public class PieView2 extends View {
             if (numbers[i] <= 0) {
                 continue;
             }
-            //当前扇形弧线相对于纵轴的中心点度数,由于扇形的绘制是从三点钟方向开始，所以加90
+            //当前弧线中心点相对于纵轴的夹角度数,由于扇形的绘制是从三点钟方向开始，所以加90
             float arcCenterDegree = 90 + startAngle - angle / 2;
             drawData(canvas, arcCenterDegree, i, percent);
         }
@@ -285,8 +265,8 @@ public class PieView2 extends View {
      * 绘制数据
      *
      * @param canvas  画布
-     * @param degree  所在弧线的度数
-     * @param i       数据下标
+     * @param degree  第i段弧线中心点相对于纵轴的夹角度数
+     * @param i       第i段弧线
      * @param percent 数据百分比
      */
     private void drawData(Canvas canvas, float degree, int i, float percent) {
