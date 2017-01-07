@@ -22,24 +22,24 @@
 
 ###2.布局中使用
 
-使用默认的样式，其中宽高可根据自己的需求设置，支持wrap\_content，match\_parent，固定尺寸
+使用默认的样式，其中宽高可根据自己的需求设置，支持wrap\_content，match\_parent，固定尺寸。
 
 
-折现类型显示数据
+折现类型显示数据：
 
 	<com.don.pieviewlibrary.PieView
         android:id="@+id/pieView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-百分比类型显示数据	
+百分比类型显示数据	：
 
 	<com.don.pieviewlibrary.PieView2
         android:id="@+id/pieView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-自定义样式，根据自己的需求设置各种颜色
+自定义样式，根据自己的需求设置各种颜色：
 	
 	<com.don.pieviewlibrary.PieView
         android:id="@+id/pieView"
@@ -87,12 +87,12 @@ PieView和PieView2的使用方式相同
 
 #更新日志
 
-### V1.0.0
-* 饼状表格图View
-
 ### V2.0.0
 * 添加PieView2，使用百分比形式显示
 * 重构代码
+### V1.0.0
+* 饼状表格图View
+
 
 #License
         Copyright 2016 zhijieeeeee
