@@ -10,7 +10,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "2.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -34,11 +34,11 @@ dependencies {
 
 //添加
 publish {
-    //com.don:clockviewlibrary:1.0.0
+    //com.don:clockviewlibrary:2.0.0
     userOrg = 'don'//bintray.com用户名
     groupId = 'com.don'//jcenter上的路径
     artifactId = 'pieviewlibrary'//项目名称
-    publishVersion = '1.0.0'//版本号
+    publishVersion = '2.0.0'//版本号
     desc = 'PieView for android'//描述，不重要
     website = 'https://github.com/zhijieeeeee/PieView'//网站，不重要；尽量模拟github上的地址
 

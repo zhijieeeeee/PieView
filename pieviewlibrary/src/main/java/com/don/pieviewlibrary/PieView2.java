@@ -15,7 +15,7 @@ import java.util.Random;
 
 /**
  * <p>
- * Description：饼状统计图View，折线数据类型
+ * Description：饼状统计图View，百分比数据类型
  * </p>
  *
  * @author tangzhijie
@@ -121,7 +121,7 @@ public class PieView2 extends View {
     /**
      * 数据字体大小
      */
-    private float dataTextSize = 40;
+    private float dataTextSize = 30;
 
     /**
      * 中间字体颜色
@@ -136,7 +136,7 @@ public class PieView2 extends View {
     /**
      * 圆圈的宽度
      */
-    private float circleWidth = 50;
+    private float circleWidth = 100;
 
     //自定义属性 End
 
