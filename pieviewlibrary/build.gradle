@@ -34,14 +34,13 @@ dependencies {
 
 //添加
 publish {
-    //com.don:clockviewlibrary:2.0.0
-    userOrg = 'don'//bintray.com用户名
-    groupId = 'com.don'//jcenter上的路径
+    //com.zhijieeeeee:pieviewlibrary:2.0.0
+    userOrg = 'zhijieeeeee'//bintray.com用户名
+    groupId = 'com.zhijieeeeee'//jcenter上的路径
     artifactId = 'pieviewlibrary'//项目名称
     publishVersion = '2.0.0'//版本号
-    desc = 'PieView for android'//描述，不重要
+    desc = 'PieView for Android'//描述，不重要
     website = 'https://github.com/zhijieeeeee/PieView'//网站，不重要；尽量模拟github上的地址
 
     //gradlew clean build bintrayUpload -PbintrayUser=zhijieeeeee -PbintrayKey=xxxxxxx -PdryRun=false
-    //由于是github登录的这里的user是github的名字
 }

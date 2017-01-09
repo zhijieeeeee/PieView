@@ -18,7 +18,7 @@
 
 ###1.在gradle中添加依赖
 	
-	compile 'com.don:pieviewlibrary:2.0.0'
+	compile 'com.zhijieeeeee:pieviewlibrary:2.0.0'
 
 ###2.布局中使用
 
