@@ -16,7 +16,7 @@
 </div>
 
 ###AnimationPercentPieView
-<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pieview.gif" width = "270" height = "480" alt="AnimationPercentPieView" />
+<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/preview.gif" width = "270" height = "480" alt="AnimationPercentPieView" />
 
 #基本使用
 
