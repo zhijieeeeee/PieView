@@ -390,6 +390,7 @@ public class AnimationPercentPieView extends View {
         centerTextPaint.getTextBounds(sum + "", 0, (sum + "").length(), centerTextBound);
         //计算绘制所需信息
         calculateArc();
+        invalidate();
     }
 
     /**
