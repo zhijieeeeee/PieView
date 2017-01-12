@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:don="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.don.pieviewlibrary.PieView
-        android:id="@+id/pieView"
+    <ListView
+        android:id="@+id/lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        don:centerTextColor="#000000"
-        don:centerTextSize="24sp"
-        don:circleWidth="20dp"
-        don:dataTextColor="#ff00ff"
-        don:dataTextSize="12sp" />
-
-    <com.don.pieviewlibrary.PieView2
-        android:id="@+id/pieView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        don:centerTextColor="#000000"
-        don:centerTextSize="24sp"
-        don:circleWidth="40dp"
-        don:dataTextColor="#ffffff"
-        don:dataTextSize="10sp" />
+        android:layout_height="match_parent" />
 </LinearLayout>

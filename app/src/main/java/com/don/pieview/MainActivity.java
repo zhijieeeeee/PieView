@@ -1,26 +1,42 @@
 package com.don.pieview;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import com.don.pieviewlibrary.PieView;
-import com.don.pieviewlibrary.PieView2;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
-
+    private String[] item = {
+            "折线数据类型饼状统计图",
+            "不带动画的百分比数据类型饼状统计图",
+            "带动画的百分比数据类型饼状统计图"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        int[] data = new int[]{10, 10, 10, 40};
-        String[] name = new String[]{"兄弟", "姐妹", "情侣", "基友"};
-        PieView pieView = (PieView) findViewById(R.id.pieView);
-        pieView.setData(data, name);
-
-        int[] data2 = new int[]{10, 10, 20, 40,10, 10, 20};
-        String[] name2 = new String[]{"猫", "狗", "奶牛", "羊驼","大象", "狮子", "老虎"};
-        PieView2 pieView2 = (PieView2) findViewById(R.id.pieView2);
-        pieView2.setData(data2, name2);
+        ListView lv = (ListView) findViewById(R.id.lv);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, item);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        startActivity(new Intent(MainActivity.this, LinePieViewActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(MainActivity.this, PercentPieViewActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(MainActivity.this, AnimationPercentPieViewActivity.class));
+                        break;
+                }
+            }
+        });
     }
 }

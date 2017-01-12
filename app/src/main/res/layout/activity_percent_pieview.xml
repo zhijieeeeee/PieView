@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:don="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.don.pieviewlibrary.PercentPieView
+        android:id="@+id/percentPieView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        don:centerTextColor="#000000"
+        don:centerTextSize="24sp"
+        don:circleWidth="40dp"
+        don:dataTextColor="#ffffff"
+        don:dataTextSize="10sp" />
+
+    <com.don.pieviewlibrary.PercentPieView
+        android:id="@+id/percentPieView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

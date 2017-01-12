@@ -15,12 +15,12 @@ import java.util.Random;
 
 /**
  * <p>
- * Description：饼状统计图View，百分比数据类型
+ * Description：不带动画的百分比数据类型饼状统计图
  * </p>
  *
  * @author tangzhijie
  */
-public class PieView2 extends View {
+public class PercentPieView extends View {
 
     /**
      * 使用wrap_content时默认的尺寸
@@ -120,16 +120,16 @@ public class PieView2 extends View {
 
     //自定义属性 End
 
-    public PieView2(Context context) {
+    public PercentPieView(Context context) {
         super(context);
         init();
     }
 
-    public PieView2(Context context, AttributeSet attrs) {
+    public PercentPieView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PieView2(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PercentPieView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PieView);
         centerTextSize = typedArray.getDimension(R.styleable.PieView_centerTextSize, centerTextSize);

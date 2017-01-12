@@ -2,6 +2,7 @@ package com.don.pieviewlibrary;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,16 +11,19 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * <p>
- * Description：饼状统计图View，折线数据类型
+ * Description：带动画的百分比数据类型饼状统计图
  * </p>
  *
  * @author tangzhijie
  */
-public class PieView extends View {
+public class AnimationPercentPieView extends View {
 
     /**
      * 使用wrap_content时默认的尺寸
@@ -28,24 +32,20 @@ public class PieView extends View {
     private static final int DEFAULT_HEIGHT = 800;
 
     /**
-     * 斜线长度
+     * 绘制扇形的画布
      */
-    private static final int SlASH_LINE_OFFSET = 60;
+    private Canvas mCanvas;
+    private Bitmap mBitmap;
 
     /**
-     * 横线长度
+     * 扇形位置等数据集合
      */
-    private static final int HOR_LINE_LENGTH = 180;
+    private List<ArcInfo> positionList;
 
     /**
-     * 横线上文字的横向偏移量
+     * 动画绘制扇形时的当前度数进度
      */
-    private static final int X_OFFSET = 20;
-
-    /**
-     * 横线上文字的纵向偏移量
-     */
-    private static final int Y_OFFSET = 10;
+    private int currentAngle = 0;
 
     /**
      * 中心坐标
@@ -120,7 +120,7 @@ public class PieView extends View {
     /**
      * 数据字体大小
      */
-    private float dataTextSize = 40;
+    private float dataTextSize = 30;
 
     /**
      * 中间字体颜色
@@ -135,20 +135,20 @@ public class PieView extends View {
     /**
      * 圆圈的宽度
      */
-    private float circleWidth = 50;
+    private float circleWidth = 100;
 
     //自定义属性 End
 
-    public PieView(Context context) {
+    public AnimationPercentPieView(Context context) {
         super(context);
         init();
     }
 
-    public PieView(Context context, AttributeSet attrs) {
+    public AnimationPercentPieView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PieView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AnimationPercentPieView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PieView);
         centerTextSize = typedArray.getDimension(R.styleable.PieView_centerTextSize, centerTextSize);
@@ -210,27 +210,55 @@ public class PieView extends View {
                 centerY - radius,
                 centerX + radius,
                 centerY + radius);
+        //创建绘制使用的画布
+        mBitmap = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mBitmap);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        calculateAndDraw(canvas);
+        if (positionList != null && positionList.size() > 0) {
+            canvas.drawBitmap(mBitmap, 0, 0, null);
+
+            for (int i = 0; i < positionList.size(); i++) {
+                ArcInfo arcInfo = positionList.get(i);
+                //判断当前进度所属的扇形段，并根据相关颜色绘制
+                if (currentAngle >= arcInfo.getStartAngle() && currentAngle <= arcInfo.getStartAngle() + arcInfo.getAngle()) {
+                    drawArc(mCanvas, currentAngle, 1, arcInfo.getColor());
+                    break;
+                }
+            }
+
+            currentAngle++;
+            if (currentAngle < 360) {
+                invalidate();
+            } else {//绘制扇形完毕，绘制数据
+                for (int i = 0; i < positionList.size(); i++) {
+                    ArcInfo arcInfo = positionList.get(i);
+                    //绘制第i段扇形对应的数据
+                    drawData(mCanvas, arcInfo.getCenterAngle(), i, arcInfo.getPercent());
+                    //绘制中心数字总和
+                    mCanvas.drawText(sum + "", centerX - centerTextBound.width() / 2, centerY + centerTextBound.height() / 2, centerTextPaint);
+                }
+            }
+        }
     }
 
     /**
-     * 计算比例并且绘制扇形和数据
+     * 计算每段扇形角度，中心点，百分比
      */
-    private void calculateAndDraw(Canvas canvas) {
+    private void calculateArc() {
         if (numbers == null || numbers.length == 0) {
             return;
         }
-        //扇形开始度数
+        //每段扇形开始度数
         int startAngle = 0;
-        //所占百分比
-        float percent;
-        //所占度数
+        //每段扇形所占度数
         float angle;
+        //每个数据所占百分比
+        float percent;
+        positionList = new ArrayList<>();
         for (int i = 0; i < numbers.length; i++) {
             percent = numbers[i] / (float) sum;
             //获取百分比在360中所占度数
@@ -239,20 +267,18 @@ public class PieView extends View {
             } else {
                 angle = (float) Math.ceil(percent * 360);
             }
-            //绘制第i段扇形
-            drawArc(canvas, startAngle, angle, colors[i]);
+            ArcInfo arcInfo = new ArcInfo();
+            arcInfo.setStartAngle(startAngle);
+            arcInfo.setAngle(angle);
+            arcInfo.setPercent(percent);
+            arcInfo.setColor(colors[i]);
+            //下一段扇形开始的度数为之前扇形所占度数总和
             startAngle += angle;
-
-            //绘制数据
-            if (numbers[i] <= 0) {
-                continue;
-            }
-            //当前扇形弧线相对于纵轴的中心点度数,由于扇形的绘制是从三点钟方向开始，所以加90
+            //当前弧线中心点相对于纵轴的夹角度数,由于扇形的绘制是从三点钟方向开始，所以加90
             float arcCenterDegree = 90 + startAngle - angle / 2;
-            drawData(canvas, arcCenterDegree, i, percent);
+            arcInfo.setCenterAngle(arcCenterDegree);
+            positionList.add(arcInfo);
         }
-        //绘制中心数字总和
-        canvas.drawText(sum + "", centerX - centerTextBound.width() / 2, centerY + centerTextBound.height() / 2, centerTextPaint);
     }
 
     /**
@@ -260,7 +286,7 @@ public class PieView extends View {
      *
      * @param degree 当前扇形中心度数
      */
-    private float[] calculatePosition(float degree) {
+    private float[] calculateCenterByDegree(float degree) {
         //由于Math.sin(double a)中参数a不是度数而是弧度，所以需要将度数转化为弧度
         //而Math.toRadians(degree)的作用就是将度数转化为弧度
         //sin 一二正，三四负 sin（180-a）=sin(a)
@@ -290,127 +316,27 @@ public class PieView extends View {
      */
     private void drawData(Canvas canvas, float degree, int i, float percent) {
         //弧度中心坐标
-        float startX = calculatePosition(degree)[0];
-        float startY = calculatePosition(degree)[1];
-        //斜线结束坐标
-        float endX = 0;
-        float endY = 0;
-        //横线结束坐标
-        float horEndX = 0;
-        float horEndY = 0;
-        //数字开始坐标
-        float numberStartX = 0;
-        float numberStartY = 0;
-        //文本开始坐标
-        float textStartX = 0;
-        float textStartY = 0;
+        float startX = calculateCenterByDegree(degree)[0];
+        float startY = calculateCenterByDegree(degree)[1];
 
-        //根据每个弧度的中心点坐标绘制数据
-
+        //获取名称文本大小
         dataPaint.getTextBounds(names[i], 0, names[i].length(), dataTextBound);
-        //根据角度判断象限，并且计算各个坐标点
-        if (degree > 90 && degree < 180) {//二象限
-            endX = startX + SlASH_LINE_OFFSET;
-            endY = startY + SlASH_LINE_OFFSET;
+        //绘制名称数据，20为纵坐标偏移量
+        canvas.drawText(names[i],
+                startX - dataTextBound.width() / 2,
+                startY + dataTextBound.height() / 2 - 20,
+                dataPaint);
 
-            horEndX = endX + HOR_LINE_LENGTH;
-            horEndY = endY;
+        //拼接百分比并获取文本大小
+        DecimalFormat df = new DecimalFormat("0.0");
+        String percentString = df.format(percent * 100) + "%";
+        dataPaint.getTextBounds(percentString, 0, percentString.length(), dataTextBound);
 
-            numberStartX = endX + X_OFFSET;
-            numberStartY = endY - Y_OFFSET;
-
-            textStartX = endX + X_OFFSET;
-            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
-        } else if (degree == 180) {
-            startX = centerX;
-            startY = centerY + radius;
-            endX = startX + SlASH_LINE_OFFSET;
-            endY = startY + SlASH_LINE_OFFSET;
-
-
-            horEndX = endX + HOR_LINE_LENGTH;
-            horEndY = endY;
-
-            numberStartX = endX + X_OFFSET;
-            numberStartY = endY - Y_OFFSET;
-
-            textStartX = endX + X_OFFSET;
-            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
-        } else if (degree > 180 && degree < 270) {//三象限
-            endX = startX - SlASH_LINE_OFFSET;
-            endY = startY + SlASH_LINE_OFFSET;
-
-            horEndX = endX - HOR_LINE_LENGTH;
-            horEndY = endY;
-
-            numberStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            numberStartY = endY - Y_OFFSET;
-
-            textStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
-        } else if (degree == 270) {
-            startX = centerX - radius;
-            startY = centerY;
-            endX = startX - SlASH_LINE_OFFSET;
-            endY = startY - SlASH_LINE_OFFSET;
-
-            horEndX = endX - HOR_LINE_LENGTH;
-            horEndY = endY;
-
-            numberStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            numberStartY = endY - Y_OFFSET;
-
-            textStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
-        } else if (degree > 270 && degree < 360) {//四象限
-            endX = startX - SlASH_LINE_OFFSET;
-            endY = startY - SlASH_LINE_OFFSET;
-
-            horEndX = endX - HOR_LINE_LENGTH;
-            horEndY = endY;
-
-            numberStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            numberStartY = endY - Y_OFFSET;
-
-            textStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
-        } else if (degree == 360) {
-            startX = centerX;
-            startY = centerY - radius;
-            endX = startX - SlASH_LINE_OFFSET;
-            endY = startY - SlASH_LINE_OFFSET;
-
-            horEndX = endX - HOR_LINE_LENGTH;
-            horEndY = endY;
-
-            numberStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            numberStartY = endY - Y_OFFSET;
-
-            textStartX = endX - HOR_LINE_LENGTH + X_OFFSET;
-            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
-
-        } else if (degree > 360) {//一象限
-            endX = startX + SlASH_LINE_OFFSET;
-            endY = startY - SlASH_LINE_OFFSET;
-
-            horEndX = endX + HOR_LINE_LENGTH;
-            horEndY = endY;
-
-            numberStartX = endX + X_OFFSET;
-            numberStartY = endY - Y_OFFSET;
-
-            textStartX = endX + X_OFFSET;
-            textStartY = endY + dataTextBound.height() + Y_OFFSET / 2;
-
-        }
-        //绘制折线
-        canvas.drawLine(startX, startY, endX, endY, dataPaint);
-        //绘制横线
-        canvas.drawLine(endX, endY, horEndX, horEndY, dataPaint);
-        //绘制数字
-        canvas.drawText(numbers[i] + "", numberStartX, numberStartY, dataPaint);
-        //绘制文字
-        canvas.drawText(names[i] + "", textStartX, textStartY, dataPaint);
+        //绘制百分比数据，20为纵坐标偏移量
+        canvas.drawText(percentString,
+                startX - dataTextBound.width() / 2,
+                startY + dataTextBound.height() * 2 - 20,
+                dataPaint);
     }
 
     /**
@@ -462,6 +388,63 @@ public class PieView extends View {
         }
         //计算总和数字的宽高
         centerTextPaint.getTextBounds(sum + "", 0, (sum + "").length(), centerTextBound);
-        invalidate();
+        //计算绘制所需信息
+        calculateArc();
+    }
+
+    /**
+     * 存储每段扇形的角度，中心角度，百分比，颜色
+     */
+    class ArcInfo {
+        //开始角度
+        float startAngle;
+        //所占角度
+        float angle;
+        //中心角度
+        float centerAngle;
+        //所占百分比
+        float percent;
+        //颜色
+        int color;
+
+        float getCenterAngle() {
+            return centerAngle;
+        }
+
+        void setCenterAngle(float centerAngle) {
+            this.centerAngle = centerAngle;
+        }
+
+        float getStartAngle() {
+            return startAngle;
+        }
+
+        void setStartAngle(float startAngle) {
+            this.startAngle = startAngle;
+        }
+
+        float getAngle() {
+            return angle;
+        }
+
+        void setAngle(float angle) {
+            this.angle = angle;
+        }
+
+        float getPercent() {
+            return percent;
+        }
+
+        void setPercent(float percent) {
+            this.percent = percent;
+        }
+
+        int getColor() {
+            return color;
+        }
+
+        void setColor(int color) {
+            this.color = color;
+        }
     }
 }

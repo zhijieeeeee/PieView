@@ -15,6 +15,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LinePieViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PercentPieViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AnimationPercentPieViewActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

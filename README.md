@@ -3,45 +3,59 @@
 
 #效果图
 
-###PieView效果图
+###LinePieView效果图
 <div>
-<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pre1.png" width = "270" height = "480" alt="PieView" />
-<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pre2.png" width = "270" height = "480" alt="PieView" />
+<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pre1.png" width = "270" height = "480" alt="LinePieView" />
+<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pre2.png" width = "270" height = "480" alt="LinePieView" />
 </div>
 
-###PieView2效果图
+###PercentPieView效果图
 <div>
-<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pieview2_pre1.png" width = "270" height = "480" alt="PieView2" />
-<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pieview2_pre2.png" width = "270" height = "480" alt="PieView2" />
+<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pieview2_pre1.png" width = "270" height = "480" alt="PercentPieView" />
+<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pieview2_pre2.png" width = "270" height = "480" alt="PercentPieView" />
 </div>
+
+###AnimationPercentPieView
+<img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pieview.gif" width = "270" height = "480" alt="AnimationPercentPieView" />
+
 #基本使用
 
 ###1.在gradle中添加依赖
 	
-	compile 'com.zhijieeeeee:pieviewlibrary:2.0.0'
+	compile 'com.zhijieeeeee:pieviewlibrary:2.0.1'
 
 ###2.布局中使用
 
 使用默认的样式，其中宽高可根据自己的需求设置，支持wrap\_content，match\_parent，固定尺寸。
 
+一共有如下三种显示类型：
 
-折现类型显示数据：
 
-	<com.don.pieviewlibrary.PieView
+1.折现类型显示数据LinePieView：
+
+
+	<com.don.pieviewlibrary.LinePieView
         android:id="@+id/pieView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-百分比类型显示数据	：
+2.百分比类型显示数据PercentPieView：
 
-	<com.don.pieviewlibrary.PieView2
+	<com.don.pieviewlibrary.PercentPieView
         android:id="@+id/pieView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-自定义样式，根据自己的需求设置各种颜色：
+3.带动画的百分比类型显示数据AnimationPercentPieView：
+
+	<com.don.pieviewlibrary.AnimationPercentPieView
+        android:id="@+id/pieView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+自定义样式，根据自己的需求设置各种属性：
 	
-	<com.don.pieviewlibrary.PieView
+	<com.don.pieviewlibrary.LinePieView
         android:id="@+id/pieView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +65,7 @@
         don:dataTextColor="#ff00ff"
         don:dataTextSize="12sp" />
 
-	<com.don.pieviewlibrary.PieView2
+	<com.don.pieviewlibrary.PercentPieView
         android:id="@+id/pieView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,18 +88,21 @@
 
 ###3.代码中设置数据源
 
-PieView和PieView2的使用方式相同
 
 	int[] data = new int[]{10, 10, 10, 40};
     String[] name = new String[]{"兄弟", "姐妹", "情侣", "基友"};
 
-    PieView pieView = (PieView) findViewById(R.id.pieView);
+    LinePieView pieView = (LinePieView) findViewById(R.id.pieView);
     pieView.setData(data, name);
 
-	PieView2 pieView2 = (PieView2) findViewById(R.id.pieView2);
+	PercentPieView pieView2 = (PercentPieView) findViewById(R.id.pieView2);
     pieView2.setData(data, name);
 
 #更新日志
+
+### V2.0.1
+* 添加AnimationPercentPieView，为百分比形式显示添加动画
+* 重命名控件名称
 
 ### V2.0.0
 * 添加PieView2，使用百分比形式显示
