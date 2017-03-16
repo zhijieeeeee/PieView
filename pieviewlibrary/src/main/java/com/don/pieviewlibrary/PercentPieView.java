@@ -336,6 +336,7 @@ public class PercentPieView extends View {
         this.numbers = numbers;
         this.names = names;
         colors = new int[numbers.length];
+        sum=0;
         for (int i = 0; i < this.numbers.length; i++) {
             //计算总和
             sum += numbers[i];
