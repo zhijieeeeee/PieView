@@ -364,7 +364,7 @@ public class AnimationPercentPieView extends View {
     }
 
     /**
-     * 设置数据
+     * 设置数据(使用随机颜色)
      *
      * @param numbers 数字数组
      * @param names   名称数组
@@ -374,7 +374,6 @@ public class AnimationPercentPieView extends View {
             return;
         }
         if (numbers.length != names.length) {
-            //名称个数与数字个数不相等
             return;
         }
         this.numbers = numbers;
@@ -391,6 +390,35 @@ public class AnimationPercentPieView extends View {
         centerTextPaint.getTextBounds(sum + "", 0, (sum + "").length(), centerTextBound);
         //计算绘制所需信息
         calculateArc();
+        invalidate();
+    }
+
+    /**
+     * 设置数据(自定义颜色)
+     *
+     * @param numbers 数字数组
+     * @param names   名称数组
+     * @param colors  颜色数组
+     */
+    public void setData(int[] numbers, String[] names, int[] colors) {
+        if (numbers == null || numbers.length == 0
+                || names == null || names.length == 0
+                || colors == null || colors.length == 0) {
+            return;
+        }
+        if (numbers.length != names.length || numbers.length != colors.length) {
+            return;
+        }
+        this.numbers = numbers;
+        this.names = names;
+        this.colors = colors;
+        sum = 0;
+        for (int i = 0; i < this.numbers.length; i++) {
+            //计算总和
+            sum += numbers[i];
+        }
+        //计算总和数字的宽高
+        centerTextPaint.getTextBounds(sum + "", 0, (sum + "").length(), centerTextBound);
         invalidate();
     }
 
