@@ -22,7 +22,7 @@
 
 ###1.在gradle中添加依赖
 	
-	compile 'com.zhijieeeeee:pieviewlibrary:2.0.1'
+	compile 'com.zhijieeeeee:pieviewlibrary:2.0.2'
 
 ###2.布局中使用
 
@@ -88,17 +88,30 @@
 
 ###3.代码中设置数据源
 
-
 	int[] data = new int[]{10, 10, 10, 40};
     String[] name = new String[]{"兄弟", "姐妹", "情侣", "基友"};
+	int[] color = new int[]{
+                getResources().getColor(R.color.blue),
+                getResources().getColor(R.color.red),
+                getResources().getColor(R.color.green),
+                getResources().getColor(R.color.purple)};
 
     LinePieView pieView = (LinePieView) findViewById(R.id.pieView);
-    pieView.setData(data, name);
+	//设置指定颜色
+    pieView.setData(data, name, color);
 
 	PercentPieView pieView2 = (PercentPieView) findViewById(R.id.pieView2);
+	//使用随机颜色
     pieView2.setData(data, name);
 
+	
+
 #更新日志
+
+
+### V2.0.2
+* 修改重复setData出现的数据叠加Bug
+* 添加设置指定颜色的方法
 
 ### V2.0.1
 * 添加AnimationPercentPieView，为百分比形式显示添加动画
