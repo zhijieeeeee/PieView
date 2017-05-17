@@ -8,4 +8,7 @@
     <color name="blue">#436EEE</color>
     <color name="green">#00CD00</color>
     <color name="purple">#E066FF</color>
+
+    <color name="not_pay">#ffb847</color>
+    <color name="bug_success">#f74646</color>
 </resources>

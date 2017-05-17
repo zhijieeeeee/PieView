@@ -24,6 +24,9 @@
         <activity
             android:name=".AnimationPercentPieViewActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".HorLinePieViewActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
