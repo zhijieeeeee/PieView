@@ -343,8 +343,11 @@ public class AnimationPercentPieView extends View {
      */
     private void drawArc(Canvas canvas, float startAngle, float angle, int color) {
         mArcPaint.setColor(color);
-        //-0.5和+0.5是为了让每个扇形之间没有间隙
-        canvas.drawArc(rectF, startAngle - 0.5f, angle + 0.5f, false, mArcPaint);
+        //+0.5是为了让每个扇形之间没有间隙
+        if (angle != 0) {
+            angle += 0.5f;
+        }
+        canvas.drawArc(rectF, startAngle, angle, false, mArcPaint);
     }
 
     /**

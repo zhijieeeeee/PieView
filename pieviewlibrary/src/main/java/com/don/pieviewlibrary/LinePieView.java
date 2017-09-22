@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.Random;
@@ -29,7 +30,7 @@ public class LinePieView extends View {
     /**
      * 横线长度
      */
-    private static final int HOR_LINE_LENGTH = 120;
+    private static final int HOR_LINE_LENGTH = 100;
 
     /**
      * 横线上文字的横向偏移量
@@ -417,8 +418,11 @@ public class LinePieView extends View {
      */
     private void drawArc(Canvas canvas, float startAngle, float angle, int color) {
         mArcPaint.setColor(color);
-        //-0.5和+0.5是为了让每个扇形之间没有间隙
-        canvas.drawArc(rectF, startAngle - 0.5f, angle + 0.5f, false, mArcPaint);
+        //+0.5是为了让每个扇形之间没有间隙
+        if (angle != 0) {
+            angle += 0.5f;
+        }
+        canvas.drawArc(rectF, startAngle, angle, false, mArcPaint);
     }
 
     /**
@@ -447,7 +451,7 @@ public class LinePieView extends View {
         this.numbers = numbers;
         this.names = names;
         colors = new int[numbers.length];
-        sum=0;
+        sum = 0;
         for (int i = 0; i < this.numbers.length; i++) {
             //计算总和
             sum += numbers[i];
