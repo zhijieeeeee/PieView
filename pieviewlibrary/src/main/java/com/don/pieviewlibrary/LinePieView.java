@@ -22,20 +22,14 @@ import java.util.Random;
 public class LinePieView extends View {
 
     /**
-     * 使用wrap_content时默认的尺寸
-     */
-    private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 800;
-
-    /**
      * 斜线长度
      */
-    private static final int SlASH_LINE_OFFSET = 60;
+    private static final int SlASH_LINE_OFFSET = 50;
 
     /**
      * 横线长度
      */
-    private static final int HOR_LINE_LENGTH = 180;
+    private static final int HOR_LINE_LENGTH = 120;
 
     /**
      * 横线上文字的横向偏移量
@@ -115,12 +109,12 @@ public class LinePieView extends View {
     /**
      * 中间字体大小
      */
-    private float centerTextSize = 80;
+    private float centerTextSize = 50;
 
     /**
      * 数据字体大小
      */
-    private float dataTextSize = 40;
+    private float dataTextSize = 20;
 
     /**
      * 中间字体颜色
@@ -190,11 +184,11 @@ public class LinePieView extends View {
         int measureHeightMode = MeasureSpec.getMode(heightMeasureSpec);
         if (measureWidthMode == MeasureSpec.AT_MOST
                 && measureHeightMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+            setMeasuredDimension(Constant.DEFAULT_WIDTH, Constant.DEFAULT_HEIGHT);
         } else if (measureWidthMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(DEFAULT_WIDTH, measureHeightSize);
+            setMeasuredDimension(Constant.DEFAULT_WIDTH, measureHeightSize);
         } else if (measureHeightMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(measureWidthSize, DEFAULT_HEIGHT);
+            setMeasuredDimension(measureWidthSize, Constant.DEFAULT_HEIGHT);
         }
     }
 

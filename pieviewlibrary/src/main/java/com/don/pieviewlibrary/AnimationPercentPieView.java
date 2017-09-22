@@ -26,12 +26,6 @@ import java.util.Random;
 public class AnimationPercentPieView extends View {
 
     /**
-     * 使用wrap_content时默认的尺寸
-     */
-    private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 800;
-
-    /**
      * 绘制扇形的画布
      */
     private Canvas mCanvas;
@@ -190,11 +184,11 @@ public class AnimationPercentPieView extends View {
         int measureHeightMode = MeasureSpec.getMode(heightMeasureSpec);
         if (measureWidthMode == MeasureSpec.AT_MOST
                 && measureHeightMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+            setMeasuredDimension(Constant.DEFAULT_WIDTH, Constant.DEFAULT_HEIGHT);
         } else if (measureWidthMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(DEFAULT_WIDTH, measureHeightSize);
+            setMeasuredDimension(Constant.DEFAULT_WIDTH, measureHeightSize);
         } else if (measureHeightMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(measureWidthSize, DEFAULT_HEIGHT);
+            setMeasuredDimension(measureWidthSize, Constant.DEFAULT_HEIGHT);
         }
     }
 
@@ -379,7 +373,7 @@ public class AnimationPercentPieView extends View {
         this.numbers = numbers;
         this.names = names;
         colors = new int[numbers.length];
-        sum=0;
+        sum = 0;
         for (int i = 0; i < this.numbers.length; i++) {
             //计算总和
             sum += numbers[i];
@@ -419,6 +413,8 @@ public class AnimationPercentPieView extends View {
         }
         //计算总和数字的宽高
         centerTextPaint.getTextBounds(sum + "", 0, (sum + "").length(), centerTextBound);
+        //计算绘制所需信息
+        calculateArc();
         invalidate();
     }
 

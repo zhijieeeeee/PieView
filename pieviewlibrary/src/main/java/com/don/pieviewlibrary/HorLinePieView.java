@@ -23,15 +23,9 @@ import java.util.Random;
 public class HorLinePieView extends View {
 
     /**
-     * 使用wrap_content时默认的尺寸
-     */
-    private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 800;
-
-    /**
      * 横线长度
      */
-    private static final int HOR_LINE_LENGTH = 180;
+    private static final int HOR_LINE_LENGTH = 100;
 
     /**
      * 横线上文字的横向偏移量
@@ -163,11 +157,11 @@ public class HorLinePieView extends View {
         int measureHeightMode = MeasureSpec.getMode(heightMeasureSpec);
         if (measureWidthMode == MeasureSpec.AT_MOST
                 && measureHeightMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+            setMeasuredDimension(Constant.DEFAULT_WIDTH, Constant.DEFAULT_HEIGHT);
         } else if (measureWidthMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(DEFAULT_WIDTH, measureHeightSize);
+            setMeasuredDimension(Constant.DEFAULT_WIDTH, measureHeightSize);
         } else if (measureHeightMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(measureWidthSize, DEFAULT_HEIGHT);
+            setMeasuredDimension(measureWidthSize, Constant.DEFAULT_HEIGHT);
         }
     }
 
