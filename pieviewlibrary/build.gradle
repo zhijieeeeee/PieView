@@ -10,7 +10,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
-        versionName "2.0.2"
+        versionName "2.0.3"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -38,7 +38,7 @@ publish {
     userOrg = 'zhijieeeeee'//bintray.com用户名
     groupId = 'com.zhijieeeeee'//jcenter上的路径
     artifactId = 'pieviewlibrary'//项目名称
-    publishVersion = '2.0.2'//版本号
+    publishVersion = '2.0.3'//版本号
     desc = 'PieView for Android'//描述，不重要
     website = 'https://github.com/zhijieeeeee/PieView'//网站，不重要；尽量模拟github上的地址
 

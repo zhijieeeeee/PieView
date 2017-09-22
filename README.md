@@ -1,30 +1,30 @@
 # PieView
 一个自定义的饼状表格图View
 
-#效果图
+# 效果图
 
-###LinePieView效果图
+### LinePieView效果图
 <div>
 <img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pre1.png" width = "270" height = "480" alt="LinePieView" />
 <img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pre2.png" width = "270" height = "480" alt="LinePieView" />
 </div>
 
-###PercentPieView效果图
+### PercentPieView效果图
 <div>
 <img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pieview2_pre1.png" width = "270" height = "480" alt="PercentPieView" />
 <img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/pieview2_pre2.png" width = "270" height = "480" alt="PercentPieView" />
 </div>
 
-###AnimationPercentPieView
+### AnimationPercentPieView
 <img src="https://github.com/zhijieeeeee/PieView/blob/master/screenshot/preview.gif" width = "270" height = "480" alt="AnimationPercentPieView" />
 
-#基本使用
+# 基本使用
 
-###1.在gradle中添加依赖
+### 1.在gradle中添加依赖
 	
-	compile 'com.zhijieeeeee:pieviewlibrary:2.0.2'
+	compile 'com.zhijieeeeee:pieviewlibrary:2.0.3'
 
-###2.布局中使用
+### 2.布局中使用
 
 使用默认的样式，其中宽高可根据自己的需求设置，支持wrap\_content，match\_parent，固定尺寸。
 
@@ -86,7 +86,7 @@
 
 * dataTextSize：数据字体大小
 
-###3.代码中设置数据源
+### 3.代码中设置数据源
 
 	int[] data = new int[]{10, 10, 10, 40};
     String[] name = new String[]{"兄弟", "姐妹", "情侣", "基友"};
@@ -106,8 +106,11 @@
 
 	
 
-#更新日志
+# 更新日志
 
+### V2.0.3
+* 修复AnimationPercentPieView无法自定义颜色的BUG
+* 调整了一些默认值
 
 ### V2.0.2
 * 修改重复setData出现的数据叠加Bug
@@ -125,7 +128,7 @@
 * 饼状表格图View
 
 
-#License
+# License
         Copyright 2016 zhijieeeeee
 
         Licensed under the Apache License, Version 2.0 (the "License");
