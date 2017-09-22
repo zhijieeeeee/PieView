@@ -34,7 +34,7 @@ dependencies {
 
 //添加
 publish {
-    //com.zhijieeeeee:pieviewlibrary:2.0.2
+    //com.zhijieeeeee:pieviewlibrary:2.0.3
     userOrg = 'zhijieeeeee'//bintray.com用户名
     groupId = 'com.zhijieeeeee'//jcenter上的路径
     artifactId = 'pieviewlibrary'//项目名称
