@@ -8,6 +8,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.don.pieviewlibrary.HalfPieView;
+import com.don.pieviewlibrary.HorLinePieView;
+
 public class MainActivity extends AppCompatActivity {
     private String[] item = {
             "横线数据类型饼状统计图",
@@ -42,5 +45,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+        int[] data = new int[]{70, 30};
+        int[] color = new int[]{
+                getResources().getColor(R.color.common_red),
+                getResources().getColor(R.color.common_green),};
+        HalfPieView halfPieView = (HalfPieView) findViewById(R.id.linePieView);
+        halfPieView.setData(data,color);
+
     }
+
+
+
 }

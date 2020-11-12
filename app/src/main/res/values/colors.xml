@@ -11,4 +11,7 @@
 
     <color name="not_pay">#ffb847</color>
     <color name="bug_success">#f74646</color>
+
+    <color name="common_red">#F56262</color>
+    <color name="common_green">#00B876</color>
 </resources>
